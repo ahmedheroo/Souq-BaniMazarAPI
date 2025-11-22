@@ -55,10 +55,12 @@ builder.Services.AddAuthentication(options =>
     {
         ValidateIssuer = true,
         ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
         ValidIssuer = jwtSection["Issuer"],
         ValidAudience = jwtSection["Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(key),
-        ClockSkew = TimeSpan.Zero
+        //ClockSkew = TimeSpan.Zero
     };
 });
 // add token service, usermanager, role manager, etc.

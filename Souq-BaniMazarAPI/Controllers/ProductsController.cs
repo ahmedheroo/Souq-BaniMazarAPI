@@ -7,10 +7,12 @@ using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pag
 using Souq_BaniMazarAPI.Data;
 using Souq_BaniMazarAPI.DTOs;
 using Souq_BaniMazarAPI.Models;
+using System.Threading.Tasks;
 
 namespace Souq_BaniMazarAPI.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class ProductsController : ControllerBase
     {
@@ -60,7 +62,7 @@ namespace Souq_BaniMazarAPI.Controllers
             return Ok(product);
         }
         [HttpPost("AddProduct")]
-        public IActionResult AddProduct([FromForm] ProductDto product)
+        public async Task<IActionResult> AddProduct([FromForm] ProductDto product)
         {
             try
             {
@@ -70,7 +72,6 @@ namespace Souq_BaniMazarAPI.Controllers
                 Description = product.Description,
                 Price = product.Price,
                 CategoriesId = product.CategoryId,
-                ImgUrl = product.ImgUrl,
                 Quantity = product.Quantity,
                 StatusId=product.StatusId,
                 SellerId = product.SellerId
@@ -85,7 +86,7 @@ namespace Souq_BaniMazarAPI.Controllers
 
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
-                    product.ProductImg.CopyToAsync(stream);
+                   await product.ProductImg.CopyToAsync(stream);
                 }
                 newProduct.ImgUrl = $"/uploads/Products/{newProduct.SellerId}/{fileName}";
                 _dbcontext.Products.Add(newProduct);
