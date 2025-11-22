@@ -1,0 +1,6 @@
+@Souq_BaniMazarAPI_HostAddress = http://localhost:5285
+
+GET {{Souq_BaniMazarAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
